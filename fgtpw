@@ -1,0 +1,26 @@
+php artisan make:controller ForgotPasswordController
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+
+class ForgotPasswordController extends Controller
+{
+    use SendsPasswordResetEmails;
+}
+use App\Http\Controllers\ForgotPasswordController;
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+MAIL_DRIVER=smtp
+MAIL_HOST=your-mail-host
+MAIL_PORT=your-mail-port
+MAIL_USERNAME=your-mail-username
+MAIL_PASSWORD=your-mail-password
+MAIL_ENCRYPTION=ssl
+php artisan migrate
